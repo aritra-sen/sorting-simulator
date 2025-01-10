@@ -2,6 +2,12 @@
 
 Creating one of the most common college projects, **THE SORTING SIMULATOR**.
 
+# How to Run
+```
+chmod -x run.sh
+./run.sh
+```
+
 ### What are we gonna do?
 - Genarate a randomly-arranged uniform distribution of numbers from 1 to 1000 (10^3).
 - Draw them on a UI using a histogram.
@@ -15,5 +21,3 @@ These sorting algorithms are in scope for this --
 - Merge Sort ⇒ O(N Log N)
 - Quick Sort ⇒ O(N Log N)
 - Heap Sort ⇒ O(N Log N)
-
-
