@@ -12,8 +12,54 @@
     <main>
         <div class="flex h-screen p-8">
             <div class="basis-[10%]"></div>
-            <div class="basis-4/5 border-solid border-2 justify-items-center content-center rounded-lg border-orange-400">
-                <div>
+            <div class="basis-4/5 border-solid border-2 rounded-lg border-orange-400">
+                <div class="flex flex-col h-1/6 w-full">
+                    <div class="size-full content-center">
+                        <ul class="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex">
+                            <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
+                                <div class="flex items-center ps-3">
+                                    <input id="merge-sort" type="radio" value="" name="list-radio" class="appearance-none bg-white size-4 border border-gray-400 rounded-full shrink-0 checked:border-green-800 checked:border-4">
+                                    <label for="merge-sort" class="w-full py-3 ms-2 text-sm font-medium text-gray-900">Merge Sort</label>
+                                </div>
+                            </li>
+                            <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
+                                <div class="flex items-center ps-3">
+                                    <input id="selection-sort" type="radio" value="" name="list-radio" class="appearance-none bg-white size-4 border border-gray-400 rounded-full shrink-0 checked:border-green-800 checked:border-4">
+                                    <label for="selection-sort" class="w-full py-3 ms-2 text-sm font-medium text-gray-900">Selection Sort</label>
+                                </div>
+                            </li>
+                            <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
+                                <div class="flex items-center ps-3">
+                                    <input id="bubble-sort" type="radio" value="" name="list-radio" class="appearance-none bg-white size-4 border border-gray-400 rounded-full shrink-0 checked:border-green-800 checked:border-4">
+                                    <label for="bubble-sort" class="w-full py-3 ms-2 text-sm font-medium text-gray-900">Bubble Sort</label>
+                                </div>
+                            </li>
+                            <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
+                                <div class="flex items-center ps-3">
+                                    <input id="insertion-sort" type="radio" value="" name="list-radio" class="appearance-none bg-white size-4 border border-gray-400 rounded-full shrink-0 checked:border-green-800 checked:border-4">
+                                    <label for="insertion-sort" class="w-full py-3 ms-2 text-sm font-medium text-gray-900">Insertion Sort</label>
+                                </div>
+                            </li>
+                            <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
+                                <div class="flex items-center ps-3">
+                                    <input id="heap-sort" type="radio" value="" name="list-radio" class="appearance-none bg-white size-4 border border-gray-400 rounded-full shrink-0 checked:border-green-800 checked:border-4">
+                                    <label for="heap-sort" class="w-full py-3 ms-2 text-sm font-medium text-gray-900">Heap Sort</label>
+                                </div>
+                            </li>
+                            <li class="w-full">
+                                <div class="flex items-center ps-3">
+                                    <input id="quick-sort" type="radio" value="" name="list-radio" class="appearance-none bg-white size-4 border border-gray-400 rounded-full shrink-0 checked:border-green-800 checked:border-4">
+                                    <label for="quick-sort" class="w-full py-3 ms-2 text-sm font-medium text-gray-900">Quick Sort</label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="flex size-full items-center justify-center">
+                        <button type="button" id="sort" onclick="onSortClicked()" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Sort</button>
+                        <button type="button" id="reset" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Reset</button>
+                    </div>
+                </div>
+                <div class="flex h-5/6 w-full items-center justify-center">
                     This is my histogram area
                 </div>
             </div>
