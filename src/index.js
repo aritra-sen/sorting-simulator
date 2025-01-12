@@ -7,6 +7,8 @@ const idsToAlgos = {
     'quick-sort' : quickSort
 }
 
+let _numbers = [];
+
 window.onload = () => {
     onResetClicked();
 };
@@ -24,16 +26,16 @@ function onSortClicked() {
 }
 
 function onResetClicked() {
-    const numbers = [];
+    _numbers = [];
     for(let i = 1; i <= 1000; i++) {
-        numbers.push(i);
+        _numbers.push(i);
     }
-    // A shortcut way to randomize a list of numbers
-    numbers.sort(() => Math.random() - 0.5);
-    draw(numbers);
+    // A shortcut way to randomize a list of _numbers
+    _numbers.sort(() => Math.random() - 0.5);
+    draw();
 }
 
-function draw(numbers) {
+function draw() {
     const area = document.getElementById('histogram-area');
     const newArea = document.createElement('div');
     newArea.classList.add('flex');
@@ -42,7 +44,7 @@ function draw(numbers) {
     newArea.classList.add('justify-center');
     newArea.classList.add('items-end');
     newArea.id = 'histogram-area';
-    for(const num of numbers) {
+    for(const num of _numbers) {
         const el = document.createElement('div');
         el.classList.add('bg-slate-500');
         el.classList.add('basis-[0.1%]');
@@ -54,32 +56,32 @@ function draw(numbers) {
 }
 
 
-function bubbleSort(numbers) {
+function bubbleSort() {
     console.log('bubble sort');
     return;
 }
 
-function insertionSort(numbers) {
+function insertionSort() {
     console.log('insertion sort');
     return;
 }
 
-function selectionSort(numbers) {
+function selectionSort() {
     console.log('selection sort');
     return;
 }
 
-function mergeSort(numbers) {
+function mergeSort() {
     console.log('merge sort');
     return;
 }
 
-function quickSort(numbers) {
+function quickSort() {
     console.log('quick sort');
     return;
 }
 
-function heapSort(numbers) {
+function heapSort() {
     console.log('heap sort');
     return;
 }
