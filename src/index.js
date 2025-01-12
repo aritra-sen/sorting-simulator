@@ -7,6 +7,8 @@ const idsToAlgos = {
     'quick-sort' : quickSort
 }
 
+const capacity = 1000;
+
 let _numbers = [];
 
 window.onload = () => {
@@ -27,7 +29,7 @@ function onSortClicked() {
 
 function onResetClicked() {
     _numbers = [];
-    for(let i = 1; i <= 1000; i++) {
+    for(let i = 1; i <= capacity; i++) {
         _numbers.push(i);
     }
     // A shortcut way to randomize a list of _numbers
@@ -47,8 +49,9 @@ function draw() {
     for(const num of _numbers) {
         const el = document.createElement('div');
         el.classList.add('bg-slate-500');
-        el.classList.add('basis-[0.1%]');
-        const heightClass = 'h-[' + Math.trunc((num/10.0)*10)/10.0+'%]';
+        el.classList.add('basis-full');
+        const height = (num*100.0)/capacity;
+        const heightClass = 'h-[' + height.toString() +'%]';
         el.classList.add(heightClass);
         newArea.appendChild(el); 
     }
@@ -58,30 +61,99 @@ function draw() {
 
 function bubbleSort() {
     console.log('bubble sort');
-    return;
+    const len = capacity;
+    for(let i = 0; i < len; i++) {
+        for(let j = 0; j < len - 1 - i; j++) {
+            if(_numbers[j] > _numbers[j+1]) {
+                swap(j, j+1);
+            }
+        }
+    }
+    draw();
 }
 
 function insertionSort() {
     console.log('insertion sort');
-    return;
+    const len = capacity;
+    for(let i = 1; i < len; i++) {
+        for(let j = i; j >0; j--) {
+            if(_numbers[j] < _numbers[j-1]) {
+                swap(j-1, j);
+                continue;
+            }
+            break;
+        }
+    }
+    draw();
+
 }
 
 function selectionSort() {
     console.log('selection sort');
-    return;
+    const len = capacity;
+    for(let i = 0; i < len; i++) {
+        let midx = i;
+        for(let j = i+1; j < len; j++) {
+            if(_numbers[j] < _numbers[midx]) {
+                midx = j;
+            }
+        }
+        swap(i, midx);
+    }
+    draw();
+}
+
+function swap(pos1, pos2) {
+    const temp = _numbers[pos1];
+    _numbers[pos1] = _numbers[pos2];
+    _numbers[pos2] = temp;
 }
 
 function mergeSort() {
     console.log('merge sort');
-    return;
+    mergeSortImpl(0, Math.floor(capacity - 1));
+    draw();
+}
+
+function mergeSortImpl(s, e) {
+    if(s == e) {
+        return;
+    }
+    const mid = Math.floor((s+e)/2);
+    mergeSortImpl(s, mid);
+    mergeSortImpl(mid+1, e);
+    let sidx = s, eidx = mid + 1;
+    const sorted = [];
+    while(sidx <= mid && eidx <= e) {
+        if(_numbers[sidx] < _numbers[eidx]) {
+            sorted.push(_numbers[sidx++]);
+        } else {
+            sorted.push(_numbers[eidx++]);
+        }
+    }
+    while(sidx <= mid) {
+        sorted.push(_numbers[sidx++]);
+    }
+    while(eidx <= e) {
+        sorted.push(_numbers[eidx++]);
+    }
+    for(const num of sorted) {
+        _numbers[s++] = num;
+    }
 }
 
 function quickSort() {
     console.log('quick sort');
-    return;
+    quickSortImpl(0, capacity - 1);
+    draw();
 }
+
+function quickSortImpl(s, e) {}
 
 function heapSort() {
     console.log('heap sort');
-    return;
+    heapSortImpl(0, capacity - 1);
+    draw();
 }
+
+function heapSortImpl(s, e) {}
