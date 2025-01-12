@@ -56,11 +56,13 @@
                     </div>
                     <div class="flex size-full items-center justify-center">
                         <button type="button" id="sort" onclick="onSortClicked()" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Sort</button>
-                        <button type="button" id="reset" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Reset</button>
+                        <button type="button" id="reset" onclick="onResetClicked()" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Reset</button>
                     </div>
                 </div>
-                <div class="flex h-5/6 w-full items-center justify-center">
-                    This is my histogram area
+                <div class="flex h-5/6 p-8 w-full items-center justify-center">
+                    <div id="histogram-area">
+
+                    </div>
                 </div>
             </div>
             <div class="basis-[10%]"></div>
