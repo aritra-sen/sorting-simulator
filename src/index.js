@@ -11,6 +11,8 @@ const capacity = 100;
 
 let _numbers = [];
 
+let _isSorted = false;
+
 const NumState = Object.freeze({
     DEFAULT: 0,
     CURRENT: 1,
@@ -23,6 +25,9 @@ window.onload = () => {
 };
 
 function onSortClicked() {
+    if(this._isSorted) {
+        return;
+    }
     for(const id in idsToAlgos) {
         if(document.getElementById(id).checked) {
             sorter(id);
@@ -33,6 +38,7 @@ function onSortClicked() {
 
 function onResetClicked() {
     _numbers = [];
+    _isSorted = false;
     for(let i = 1; i <= capacity; i++) {
         _numbers.push({number: i, state: NumState.DEFAULT });
     }
@@ -47,9 +53,9 @@ const sorter = async (id) => {
     sortButton.disabled = true;
     resetButton.disabled = true;
     await idsToAlgos[id]();
+    _isSorted = true;
     sortButton.disabled = false;
     resetButton.disabled = false;
-
 };
 
 function draw() {
@@ -83,7 +89,6 @@ function draw() {
 
 
 async function bubbleSort() {
-    console.log('bubble sort');
     const len = capacity;
     for(let i = 0; i < len; i++) {
         for(let j = 0; j < len - 1 - i; j++) {
@@ -108,7 +113,6 @@ async function bubbleSort() {
 }
 
 async function insertionSort() {
-    console.log('insertion sort');
     const len = capacity;
     for(let i = 1; i < len; i++) {
         _numbers[i-1].state = NumState.SORTED;
@@ -137,7 +141,6 @@ async function insertionSort() {
 }
 
 async function selectionSort() {
-    console.log('selection sort');
     const len = capacity;
     for(let i = 0; i < len; i++) {
         let midx = i;
@@ -168,7 +171,6 @@ function swap(pos1, pos2) {
 }
 
 async function mergeSort() {
-    console.log('merge sort');
     await mergeSortImpl(0, Math.floor(capacity - 1));
     for(const item of _numbers) {
         item.state = NumState.SORTED;
