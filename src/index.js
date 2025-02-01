@@ -170,6 +170,11 @@ function swap(pos1, pos2) {
 async function mergeSort() {
     console.log('merge sort');
     await mergeSortImpl(0, Math.floor(capacity - 1));
+    for(const item of _numbers) {
+        item.state = NumState.SORTED;
+    }
+    draw();
+    await sleep(1);
 }
 
 async function mergeSortImpl(s, e) {
