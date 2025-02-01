@@ -74,7 +74,7 @@ async function bubbleSort() {
         for(let j = 0; j < len - 1 - i; j++) {
             await sleep(1);
             if(_numbers[j] > _numbers[j+1]) {
-                await swap(j, j+1);
+                swap(j, j+1);
             }
         }
     }
@@ -87,7 +87,7 @@ async function insertionSort() {
         for(let j = i; j >0; j--) {
             await sleep(1); // This makes it very slow but also more accurate.
             if(_numbers[j] < _numbers[j-1]) {
-                await swap(j-1, j);
+                swap(j-1, j);
                 continue;
             }
             break;
@@ -106,11 +106,11 @@ async function selectionSort() {
                 midx = j;
             }
         }
-        await swap(i, midx);
+        swap(i, midx);
     }
 }
 
-async function swap(pos1, pos2) {
+function swap(pos1, pos2) {
     const temp = _numbers[pos1];
     _numbers[pos1] = _numbers[pos2];
     _numbers[pos2] = temp;
