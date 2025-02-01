@@ -18,10 +18,7 @@ window.onload = () => {
 function onSortClicked() {
     for(const id in idsToAlgos) {
         if(document.getElementById(id).checked) {
-            const sortButton = document.getElementById('sort');
-            sortButton.disabled = true;
-            idsToAlgos[id]();
-            sortButton.disabled = false;
+            sorter(id);
             return;
         }
     }
@@ -36,6 +33,17 @@ function onResetClicked() {
     _numbers.sort(() => Math.random() - 0.5);
     draw();
 }
+
+const sorter = async (id) => {
+    const sortButton = document.getElementById('sort');
+    const resetButton = document.getElementById('reset');
+    sortButton.disabled = true;
+    resetButton.disabled = true;
+    await idsToAlgos[id]();
+    sortButton.disabled = false;
+    resetButton.disabled = false;
+
+};
 
 function draw() {
     const area = document.getElementById('histogram-area');
@@ -59,69 +67,70 @@ function draw() {
 }
 
 
-function bubbleSort() {
+async function bubbleSort() {
     console.log('bubble sort');
     const len = capacity;
     for(let i = 0; i < len; i++) {
         for(let j = 0; j < len - 1 - i; j++) {
+            await sleep(1);
             if(_numbers[j] > _numbers[j+1]) {
-                swap(j, j+1);
+                await swap(j, j+1);
             }
         }
     }
-    draw();
 }
 
-function insertionSort() {
+async function insertionSort() {
     console.log('insertion sort');
     const len = capacity;
     for(let i = 1; i < len; i++) {
         for(let j = i; j >0; j--) {
+            await sleep(1); // This makes it very slow but also more accurate.
             if(_numbers[j] < _numbers[j-1]) {
-                swap(j-1, j);
+                await swap(j-1, j);
                 continue;
             }
             break;
         }
     }
-    draw();
-
 }
 
-function selectionSort() {
+async function selectionSort() {
     console.log('selection sort');
     const len = capacity;
     for(let i = 0; i < len; i++) {
         let midx = i;
         for(let j = i+1; j < len; j++) {
+            await sleep(1);
             if(_numbers[j] < _numbers[midx]) {
                 midx = j;
             }
         }
-        swap(i, midx);
+        await swap(i, midx);
     }
-    draw();
 }
 
-function swap(pos1, pos2) {
+async function swap(pos1, pos2) {
     const temp = _numbers[pos1];
     _numbers[pos1] = _numbers[pos2];
     _numbers[pos2] = temp;
-}
-
-function mergeSort() {
-    console.log('merge sort');
-    mergeSortImpl(0, Math.floor(capacity - 1));
     draw();
 }
 
-function mergeSortImpl(s, e) {
+async function mergeSort() {
+    console.log('merge sort');
+    await mergeSortImpl(0, Math.floor(capacity - 1));
+}
+
+async function mergeSortImpl(s, e) {
     if(s == e) {
+        await sleep(1);
+        draw();
         return;
     }
     const mid = Math.floor((s+e)/2);
-    mergeSortImpl(s, mid);
-    mergeSortImpl(mid+1, e);
+    await mergeSortImpl(s, mid);
+    await mergeSortImpl(mid+1, e);
     let sidx = s, eidx = mid + 1;
     const sorted = [];
     while(sidx <= mid && eidx <= e) {
@@ -139,21 +148,25 @@ function mergeSortImpl(s, e) {
     }
     for(const num of sorted) {
         _numbers[s++] = num;
+        await sleep(1);
+        draw();
     }
 }
 
-function quickSort() {
+async function quickSort() {
     console.log('quick sort');
-    quickSortImpl(0, capacity - 1);
+    await quickSortImpl(0, capacity - 1);
     draw();
 }
 
-function quickSortImpl(s, e) {}
+async function quickSortImpl(s, e) {}
 
-function heapSort() {
+async function heapSort() {
     console.log('heap sort');
-    heapSortImpl(0, capacity - 1);
+    await heapSortImpl(0, capacity - 1);
     draw();
 }
 
-function heapSortImpl(s, e) {}
+async function heapSortImpl(s, e) {}
+
+const sleep = (time) => new Promise((resolve) => setTimeout(() => resolve(), time))
