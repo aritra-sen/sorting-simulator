@@ -7,9 +7,16 @@ const idsToAlgos = {
     'quick-sort' : quickSort
 }
 
-const capacity = 1000;
+const capacity = 100;
 
 let _numbers = [];
+
+const NumState = Object.freeze({
+    DEFAULT: 0,
+    CURRENT: 1,
+    SORTED: 2,
+    NEXT: 3,
+});
 
 window.onload = () => {
     onResetClicked();
@@ -27,7 +34,7 @@ function onSortClicked() {
 function onResetClicked() {
     _numbers = [];
     for(let i = 1; i <= capacity; i++) {
-        _numbers.push(i);
+        _numbers.push({number: i, state: NumState.DEFAULT });
     }
     // A shortcut way to randomize a list of _numbers
     _numbers.sort(() => Math.random() - 0.5);
@@ -54,11 +61,19 @@ function draw() {
     newArea.classList.add('justify-center');
     newArea.classList.add('items-end');
     newArea.id = 'histogram-area';
-    for(const num of _numbers) {
+    for(const item of _numbers) {
         const el = document.createElement('div');
-        el.classList.add('bg-slate-500');
         el.classList.add('basis-full');
-        const height = (num*100.0)/capacity;
+        if(item.state == NumState.SORTED) {
+            el.classList.add('bg-green-700');
+        } else if(item.state == NumState.CURRENT) {
+            el.classList.add('bg-red-800');
+        } else if(item.state == NumState.NEXT) {
+            el.classList.add('bg-blue-800');
+        } else {
+            el.classList.add('bg-slate-500');
+        }
+        const height = (item.number *100.0)/capacity;
         const heightClass = 'h-[' + height.toString() +'%]';
         el.classList.add(heightClass);
         newArea.appendChild(el); 
@@ -72,27 +87,53 @@ async function bubbleSort() {
     const len = capacity;
     for(let i = 0; i < len; i++) {
         for(let j = 0; j < len - 1 - i; j++) {
-            await sleep(1);
-            if(_numbers[j] > _numbers[j+1]) {
+            _numbers[j].state = NumState.CURRENT;
+            _numbers[j+1].state = NumState.NEXT;
+            if(_numbers[j].number > _numbers[j+1].number) {
+                draw();
+                await sleep(1);
                 swap(j, j+1);
             }
+            _numbers[j].state = NumState.DEFAULT;
+            _numbers[j+1].state = NumState.DEFAULT;
         }
-    }
+        _numbers[len - 1 - i].state = NumState.SORTED;
+        // Use this when you want faster visuals. When using this comment out
+        // the draw() during the swap.
+        // draw();
+        // await sleep(1);
+}
+    draw();
+    await sleep(1);
 }
 
 async function insertionSort() {
     console.log('insertion sort');
     const len = capacity;
     for(let i = 1; i < len; i++) {
-        for(let j = i; j >0; j--) {
-            await sleep(1); // This makes it very slow but also more accurate.
-            if(_numbers[j] < _numbers[j-1]) {
+        _numbers[i-1].state = NumState.SORTED;
+        for(let j = i; j > 0; j--) {
+            // drawing here makes it slower but visuals are more accurate.
+            await sleep(1);
+            draw();
+            _numbers[j].state = NumState.CURRENT;
+            if(_numbers[j].number < _numbers[j-1].number) {
+                _numbers[j-1].state = NumState.CURRENT;
+                _numbers[j].state = NumState.SORTED;
                 swap(j-1, j);
                 continue;
             }
+            _numbers[j].state = NumState.SORTED;
             break;
         }
+        _numbers[0].state = NumState.SORTED;
+        // Use this when you want faster visuals. When using this comment out
+        // the draw() during the swap.
+        // draw();
+        // await sleep(1);
     }
+    await sleep(1);
+    draw();
 }
 
 async function selectionSort() {
@@ -100,21 +141,30 @@ async function selectionSort() {
     const len = capacity;
     for(let i = 0; i < len; i++) {
         let midx = i;
+        _numbers[i].state = NumState.CURRENT;
         for(let j = i+1; j < len; j++) {
+            // Drawing every step of selection makes it slower.
+            _numbers[j].state = NumState.NEXT;
+            draw();
             await sleep(1);
-            if(_numbers[j] < _numbers[midx]) {
+            if(_numbers[j].number < _numbers[midx].number) {
                 midx = j;
             }
+            _numbers[j].state = NumState.DEFAULT;
         }
+        _numbers[i].state = NumState.SORTED;
         swap(i, midx);
+        // Use this when you want faster visuals. When using this comment out
+        // the draw() during the swap.
+        // draw();
+        // await sleep(1);
     }
 }
 
 function swap(pos1, pos2) {
-    const temp = _numbers[pos1];
-    _numbers[pos1] = _numbers[pos2];
-    _numbers[pos2] = temp;
-    draw();
+    const temp = _numbers[pos1].number;
+    _numbers[pos1].number = _numbers[pos2].number;
+    _numbers[pos2].number = temp;
 }
 
 async function mergeSort() {
@@ -134,20 +184,25 @@ async function mergeSortImpl(s, e) {
     let sidx = s, eidx = mid + 1;
     const sorted = [];
     while(sidx <= mid && eidx <= e) {
-        if(_numbers[sidx] < _numbers[eidx]) {
-            sorted.push(_numbers[sidx++]);
+        if(_numbers[sidx].number < _numbers[eidx].number) {
+            sorted.push(_numbers[sidx++].number);
         } else {
-            sorted.push(_numbers[eidx++]);
+            sorted.push(_numbers[eidx++].number);
         }
     }
     while(sidx <= mid) {
-        sorted.push(_numbers[sidx++]);
+        sorted.push(_numbers[sidx++].number);
     }
     while(eidx <= e) {
-        sorted.push(_numbers[eidx++]);
+        sorted.push(_numbers[eidx++].number);
     }
     for(const num of sorted) {
-        _numbers[s++] = num;
+        if(s > 0) {
+            _numbers[s-1].state = NumState.DEFAULT;
+        }
+        _numbers[s].state = NumState.CURRENT;
+        _numbers[s++].number = num;
+
         await sleep(1);
         draw();
     }
