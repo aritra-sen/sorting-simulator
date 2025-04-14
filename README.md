@@ -4,7 +4,7 @@ Creating one of the most common college projects, **THE SORTING SIMULATOR**.
 
 # How to Run
 ```
-chmod -x run.sh
+chmod +x run.sh
 ./run.sh
 ```
 
